@@ -1,14 +1,10 @@
 <?php
-// Menyertakan bagian Header
+// manggil Header
 require_once 'header.php';
 
-// Menangkap nilai 'p' (page) dari URL menggunakan $_GET
-// Jika 'p' tidak ada, maka defaultnya adalah 'home'
 $page = isset($_GET['p']) ? $_GET['p'] : 'home';
-
 echo '<div class="content-box">';
 
-// Sistem Dynamic Page menggunakan Switch Case
 switch ($page) {
     case 'home':
         echo '<h2>Selamat Datang di Plataran</h2>';
@@ -26,19 +22,19 @@ switch ($page) {
             require_once 'class.Reservasi.php';
 
             try {
-                // Mengambil data dari form
+                // mengambil data dari form
                 $nama = trim($_POST['nama']);
                 $email = $_POST['email'];
                 $tanggal = $_POST['tanggal'] ?? '';
                 $meja = $_POST['meja'] ?? '';
                 $area = $_POST['area'] ?? '';
 
-                // 1. Validasi Nama (Minimal 1 karakter & hanya huruf/spasi)
+                // Validasi Nama
                 if (strlen($nama) < 1 || !preg_match("/^[a-zA-Z ]*$/", $nama)) {
                     throw new Exception("Nama tidak valid! Gunakan nama lengkap minimal 1 karakter.");
                 }
 
-                // 2. Validasi Domain Email
+                // Validasi Domain Email
                 $allowedDomains = ['gmail.com', 'yahoo.com', 'outlook.com', 'uag.ac.id'];
                 $emailDomain = substr(strrchr($email, "@"), 1);
 
@@ -51,18 +47,16 @@ switch ($page) {
                     throw new Exception("Tanggal reservasi harus diisi.");
                 }
 
-                // Simulasi lempar Exception jika meja tertentu penuh (contoh: Meja 7)
-                if ($meja === 'Meja 7') {
+                if ($meja === 'Meja 7, Meja 2, Meja 3, Meja 5') {
                     throw new Exception("Mohon maaf, $meja sudah penuh dipesan untuk tanggal tersebut. Silakan pilih meja yang lain.");
                 }
 
-                // Instansiasi class Reservasi
                 $reservasi = new Reservasi($nama, $email, $tanggal, $meja, $area);
 
                 echo '<h2>Detail Reservasi Anda</h2>';
                 echo '<div style="margin-top: 2rem; padding: 2rem; border: 1px dashed var(--accent-color); border-radius: 4px;">';
                 echo '<p style="color: var(--accent-color); font-size: 1.2rem; margin-top: 0;"><strong>Terima kasih, reservasi berhasil dibuat!</strong></p>';
-                // Memanggil Magic Method __toString()
+                
                 echo '<pre style="font-family: \'Lora\', serif; font-size: 1.05rem; white-space: pre-wrap;">' . $reservasi . '</pre>';
                 echo '</div>';
                 echo '<br><br><a href="index.php?p=home" style="color: var(--accent-color); text-decoration: none; border-bottom: 1px solid var(--accent-color);">&larr; Kembali ke Beranda</a>';
@@ -94,6 +88,6 @@ switch ($page) {
 
 echo '</div>';
 
-// Menyertakan bagian Footer
+// Manggil Footer
 require_once 'footer.php';
 ?>
