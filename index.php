@@ -1,16 +1,63 @@
 <?php
-// manggil Header
-require_once 'header.php';
+spl_autoload_register(function ($namaClass) {
+    require_once "class/class." . $namaClass . ".php";
+});
+
+session_start();
+
+require_once 'header.php'
 
 $page = isset($_GET['p']) ? $_GET['p'] : 'home';
-echo '<div class="content-box">';
 
 switch ($page) {
     case 'home':
-        echo '<h2>Selamat Datang di Plataran</h2>';
-        echo '<p>Nikmati pengalaman bersantap yang elegan dan tak terlupakan dengan nuansa klasik yang memanjakan indera Anda. Kami menyajikan perpaduan harmoni antara cita rasa nusantara dan pelayanan bintang lima.</p>';
-        break;
+        ?>
+        <style>
+            .hero-section {
+                height: 100vh;
+                width: 100%;
+                background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('hero_bg.png');
+                background-size: cover;
+                background-position: center;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
 
+            .hero-section h2 {
+                font-size: 4.5rem;
+                margin: 0;
+                color: var(--text-light);
+                letter-spacing: 1px;
+            }
+
+            .hero-section h3 {
+                font-size: 1.2rem;
+                font-family: var(--font-body);
+                letter-spacing: 4px;
+                margin-top: 1rem;
+                font-weight: 300;
+            }
+
+            .sub-nav {
+                display: flex;
+                justify-content: center;
+                gap: 3rem;
+                padding: 1.5rem 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .sub-nav a {
+                color: var(--text-light);
+                text-decoration: none;
+                font-size: 0.9rem;
+                padding-bottom: 0.5rem;
+                border-bottom: 2px solid transparent;
+                transition: border-color 0.3s;
+            }
+                
     case 'reservasi':
         echo '<h2>Reservasi Meja</h2>';
         echo '<p>Silakan rencanakan kedatangan Anda dengan mengisi formulir di bawah ini.</p>';
