@@ -435,6 +435,31 @@ switch ($page) {
         <?php
         break;
 }
-
 require_once 'footer.php';
 ?>
+
+<?php
+
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+if (isset($_SESSION["role"])) {
+    if ($_SESSION["role"] == 'employee') {
+        echo '<script>window.location="dashboardemployee.php";</script>';
+        exit;
+    } elseif ($_SESSION["role"] == 'manager') {
+        echo '<script>window.location="dashboardmanager.php";</script>';
+        exit;
+    } elseif ($_SESSION["role"] == 'admin') {
+        echo '<script>window.location="dashboardadmin.php";</script>';
+        exit;
+    }
+}
+
+spl_autoload_register(function ($namaClass) {
+    require_once "class/class." . $namaClass . ".php";
+});
+
+// jika ada file koneksi
+require_once "class/class.Connection.php";

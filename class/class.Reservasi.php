@@ -1,7 +1,6 @@
 <?php
 
-class Reservasi
-{
+class Reservasi {
     private $nama;
     private $email;
     private $tanggal;
@@ -16,7 +15,6 @@ class Reservasi
         $this->meja = $meja;
         $this->area = $area;
     }
-
 
     public function getNama()
     {
