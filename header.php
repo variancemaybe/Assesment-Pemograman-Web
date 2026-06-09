@@ -211,7 +211,7 @@
             </a>
         </div>
         <div class="header-right">
-            <a href="index.php?p=admin" style="color: inherit; text-decoration: none;">ADMIN</a>
+            <a href="index.php?p=login" style="color: inherit; text-decoration: none;">LOGIN</a>
             <a href="index.php?p=contact" style="color: inherit; text-decoration: none;">CONTACT</a>
             <a href="index.php?p=reservasi" class="btn-outline">RESERVATIONS</a>
         </div>

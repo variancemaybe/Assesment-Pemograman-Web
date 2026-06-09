@@ -81,3 +81,36 @@ class Reservasi {
 }
 
 ?>
+
+<?php
+require_once('../class/class.Mail.php');
+
+if(isset($_POST['btnSumbit'])) {
+    $inputemail = $_POST['email'];
+    $objUser = new User();
+    $objUser->ValidateEmail($inputemail);
+    $objUser->hasil = false;
+    if ($objUser->hasil) {
+        echo "<script> alert('Email sudah terdaftar!'); </script>";
+    }
+    else {
+        $objUser->email=$_POST['email'];
+        $objUser->password=$_POST['password'];
+        $objUser->namespace=$_POST['namespace'];
+        $objUser->role=['employee'];
+        $objUser->AddUser();
+        if ($objUser->hasil) {
+            $message = "
+            <h2>Registration Successful</h2>
+            <p>Thank you for registering, " . $objUser->email . "!</p>
+            <p>Your account has been created successfully.</p>
+            <ul>
+                <li>Email: " . $objUser->email . "</li>
+                <li>Namespace: " . $objUser->namespace . "</li>
+                <li>Role: " . implode(", ", $objUser->role) . "</li>
+            </ul>
+
+            <p> Silah
+            "
+    }
+}

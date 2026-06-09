@@ -1,20 +1,23 @@
 <?php
+$ukuran_maks_file = 1000000; // 1MB
+$tipe_file   = $_FILES['fupload']['type'];
+$lokasi_file = $_FILES['fupload']['tmp_name'];
+$nama_file   = $_FILES['fupload']['name'];
+$ukuran_file = $_FILES['fupload']['size'];
 
-$tipe_file   = $_FILES['fileToUpload']['type'];
-$lokasi_file = $_FILES['fileToUpload']['tmp_name'];
-$nama_file   = $_FILES['fileToUpload']['name'];
-$ukuran_file = $_FILES['fileToUpload']['size'];
+$folder = "./upload/";
 
-$folder = "../upload/";
-
-if (
+if ($ukuran_file > $ukuran_maks_file) {
+    echo "<script>alert('Ukuran file terlalu besar!');</script>";
+    echo "<script>window.location='index.php?p=upload';</script>";
+} else if (
     $tipe_file != "image/gif" &&
     $tipe_file != "image/jpeg" &&
     $tipe_file != "image/png"
 ) {
 
     echo "<script>alert('Hanya boleh meng-upload file gambar!');</script>";
-    echo "<script>window.location='upload.php';</script>";
+    echo "<script>window.location='index.php?p=upload';</script>";
 
 } else {
 

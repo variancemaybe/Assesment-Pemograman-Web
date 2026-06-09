@@ -363,67 +363,35 @@ switch ($page) {
         <?php
         break;
 
-    case 'admin':
-        // input password admin
-        $login_error = '';
-        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['admin_password'])) {
-            if ($_POST['admin_password'] === 'plataranid') {
-                $_SESSION['admin_logged_in'] = true;
-            } else {
-                $login_error = "Password salah!";
-            }
-        }
+    case 'login':
+    include "pages/login.php";
+    break;
 
-        // logout button
-        if (isset($_GET['action']) && $_GET['action'] == 'logout') {
-            unset($_SESSION['admin_logged_in']);
-            header("Location: index.php?p=admin");
-            exit;
-        }
+case 'dashboard-employee':
+    if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'employee') {
+        echo '<script>window.location="index.php?p=login";</script>';
+        exit;
+    }
+    include "pages/dashboardemployee.php";
+    break;
 
-        echo '<div class="page-content-wrapper" style="background-color: var(--cream-bg); color: var(--text-dark); padding: 5rem 2rem;">';
-        echo '<div style="max-width: 900px; margin: 0 auto;">';
+case 'dashboard-manager':
+    if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'manager') {
+        echo '<script>window.location="index.php?p=login";</script>';
+        exit;
+    }
+    include "pages/dashboardmanager.php";
+    break;
 
-        // cek apa udh login apa belom
-        if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-            // menampilkan form login
-            echo '<div style="max-width: 400px; margin: 10rem auto 0 auto; background-color: #fff; padding: 3rem; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center;">';
-            echo '<h2 style="font-size: 2rem; color: var(--text-dark); margin-top: 0; margin-bottom: 1.5rem;">Admin Login</h2>';
-            if (!empty($login_error)) {
-                echo '<p style="color: #d9534f; background-color: rgba(217,83,79,0.1); padding: 0.8rem; border-radius: 4px; margin-bottom: 1.5rem;">' . $login_error . '</p>';
-            }
-            echo '<form method="POST" action="index.php?p=admin">';
-            echo '<input type="password" name="admin_password" placeholder="Masukkan Password (plataranid)" required style="width: 100%; padding: 1rem; margin-bottom: 1.5rem; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: var(--font-body); font-size: 1rem;">';
-            echo '<button type="submit" class="btn-gold" style="width: 100%; border-radius: 4px; font-size: 1.1rem; padding: 1rem;">Masuk Dashboard</button>';
-            echo '</form>';
-            echo '</div>';
-        } else {
-            // Tampilkan dashboard
-            echo '<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10rem; margin-bottom: 1.5rem;">';
-            echo '<h2 style="font-size: 2.5rem; margin: 0; color: var(--text-dark);">Admin View</h2>';
-            echo '<a href="index.php?p=admin&action=logout" style="color: #d9534f; text-decoration: none; border: 1px solid #d9534f; padding: 0.5rem 1rem; border-radius: 4px; transition: 0.3s;">Logout</a>';
-            echo '</div>';
-            echo '<p style="font-size: 1.1rem; line-height: 2; font-weight: 300;">Daftar meja yang saat ini terisi di Plataran Dharmawangsa:</p>';
-            echo '<div style="margin-top: 2rem; padding: 2rem; border: 1px solid rgba(0,0,0,0.1); background-color: #fff;">';
+    echo '</div>';
+    break;
 
-            if (isset($_SESSION['reservasi_list']) && count($_SESSION['reservasi_list']) > 0) {
-                foreach ($_SESSION['reservasi_list'] as $index => $res) {
-                    echo '<div style="border-bottom: 1px solid #eee; padding-bottom: 1rem; margin-bottom: 1rem;">';
-                    echo '<p style="margin:0 0 0.5rem 0; font-weight:bold; color:var(--gold-accent);">Reservasi #' . ($index + 1) . '</p>';
-                    echo '<pre style="font-family: var(--font-body); font-size: 1rem; white-space: pre-wrap; line-height: 1.5; margin: 0;">';
-                    echo $res;
-                    echo '</pre>';
-                    echo '</div>';
-                }
-            } else {
-                echo '<p style="font-style: italic; color: #666;">-- Belum ada data reservasi --</p>';
-            }
+    case 'upload':
+        include "pages/upload.php";
+        break;
 
-            echo '</div>';
-        }
-
-        echo '</div>';
-        echo '</div>';
+    case 'uploadpost':
+        include "pages/uploadpost.php";
         break;
 
     default:
